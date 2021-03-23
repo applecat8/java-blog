@@ -1,0 +1,8 @@
+spring:
+  # 指定环境配置
+  profiles:
+    active: dev
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
