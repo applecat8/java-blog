@@ -1,0 +1,11 @@
+/blog/blog/*
+
+!/blog/blog/src/
+
+!/blog/blog/pom.xml 
+
+!/blog/blog/notes/
+
+.git
+log
+
