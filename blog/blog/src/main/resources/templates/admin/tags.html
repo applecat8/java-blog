@@ -13,7 +13,7 @@
 <body>
 
 	<!-- 导航  -->
-	<nav th:replace="admin/_fragments :: menu(2)" class="ui vertical segment m-theme-color">
+	<nav th:replace="admin/_fragments :: menu(3)" class="ui vertical segment m-theme-color">
 		<div class="ui container ">
 			<div class="ui secondary menu stackable">
 				<h2 class="ui header item">Admin</h2>
@@ -59,21 +59,23 @@
 			<div class="ui top attached segment">
 				<div class="ui middle aligned two column grid">
 					<div class="column">
-						<h3 class="ui header">分类</h3>
+						<h3 class="ui header">标签</h3>
 					</div>
 					<div class="right aligned column">
-						<h3 class="ui header">共<span class="ui orange header m-font-thin" th:text="${total}">20</span>篇</h3>
+						<h3 class="ui header">共<span class="ui orange header m-font-thin" th:text="${total}">20</span>个</h3>
 					</div>
 				</div>
 			</div>
 
 			<div class="ui  segment">
-				<form action="#" method="GET" th:action="@{/admin/types/del}">
+				<form action="#" method="GET" th:action="@{/admin/tags/del}">
 					<!-- 循环 -->
-					<div th:each="type : ${types}" class="ui labeled button m-margin-small m-margin-lf">
-						<input type="checkbox" name="delTypeIDs" class="m-margin-lf-thin del" value="0" th:value="${type.id}">
-						<div class="ui  brown  button"><i class="fork icon"></i> <span th:text="${type.name}">Java</span> </div>
-						<a class="ui basic left pointing brown label"><span>12</span></a>
+					<div th:each="tag : ${tags}" class="ui labeled button m-margin-small m-margin-lf">
+						<input type="checkbox" name="delTagIDs" class="m-margin-lf-thin del" value="0" th:value="${tag.id}">
+						<a class="ui labeled icon button">
+							<i class="tag icon"></i>
+							<span th:text="${tag.name}">Java</span>
+						</a>
 					</div>
 					<div class="del">
 						<button class="ui button">确定删除</button>
@@ -92,11 +94,11 @@
 		<div class="ui mini modal">
 			<i class="close icon"></i>
 			<div class="header">
-				请输入新增分类名称
+				请输入新增标签名称
 			</div>
 			<div>
-				<form action="#" th:action="@{/admin/types/save}"  method="GET" class="ui action input">
-					<input type="text" placeholder="分类" name="newTypeName">
+				<form action="#" th:action="@{/admin/tags/save}"  method="GET" class="ui action input">
+					<input type="text" placeholder="标签" name="newTagName">
 					<button class="ui button">确定</button>
 				</form>
 			</div>

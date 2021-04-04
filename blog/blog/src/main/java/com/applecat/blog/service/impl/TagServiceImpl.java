@@ -2,10 +2,10 @@ package com.applecat.blog.service.impl;
 
 import java.util.List;
 
-import com.applecat.blog.dao.TypeDao;
+import com.applecat.blog.dao.TagDao;
 import com.applecat.blog.exception.exception.NotFoundException;
-import com.applecat.blog.model.pojo.Type;
-import com.applecat.blog.service.TypeService;
+import com.applecat.blog.model.pojo.Tag;
+import com.applecat.blog.service.TagService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,13 +14,13 @@ import org.springframework.stereotype.Service;
  * type service
  */
 @Service
-public class TypeServiceImp implements TypeService {
+public class TagServiceImpl implements TagService {
 
     @Autowired
-    private TypeDao typeDao;
+    private TagDao tagDao;
 
     @Override
-    public String[] saveType(String name) {
+    public String[] saveTag(String name) {
         //status[0]表示操作是否成功
         //status[1]对应的提示信息
         String[] status = new String[2];
@@ -32,14 +32,14 @@ public class TypeServiceImp implements TypeService {
         }
 
         //判断该分类标签在数据库中是否存在
-        if (typeDao.findByName(name) != null) {
+        if (tagDao.findTagByName(name) != null) {
             status[0] = "false";
             status[1] = "分类名称以存在";
             return status;
         }
 
         try {
-            typeDao.saveType(name);
+            tagDao.saveTag(name);
             status[0] = "true";
             status[1] = "新增成功";
             return status;
@@ -49,12 +49,12 @@ public class TypeServiceImp implements TypeService {
     }
 
     @Override
-    public List<Type> listType() {
-        return typeDao.listType();
+    public List<Tag> listTag() {
+        return tagDao.listTag();
     }
 
     @Override
-    public void deleteTypes(int[] names) {
+    public void deleteTags(int[] names) {
 
         //为空，直接返回
         if (names == null || names.length == 0) {
@@ -68,6 +68,6 @@ public class TypeServiceImp implements TypeService {
             sb.append(names[i] + ",");
         }
         sb.append(names[names.length - 1]);
-        typeDao.deleteTypes(sb.toString());
+        tagDao.deleteTags(sb.toString());
     }
 }

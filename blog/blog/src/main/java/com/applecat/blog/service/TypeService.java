@@ -6,8 +6,16 @@ import java.util.List;
 
 public interface TypeService {
 
-    public void saveType(String name);    
+    /**
+     * 保存一个新分类
+     * @param name 新分类名称
+     */
+    public String[] saveType(String name);    
 
+    /**
+     * 列出所有的分类
+     * @return
+     */
     public List<Type> listType();
 
     /**

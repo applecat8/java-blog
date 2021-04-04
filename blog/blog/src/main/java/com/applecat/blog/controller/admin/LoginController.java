@@ -39,7 +39,7 @@ public class LoginController {
             //将该用户的信息存入session
             session.setAttribute("user", user);
             //去后台主页
-            return "admin/admin";
+            return "redirect:/admin/blogs";
         }  
         //失败,回到登录页
         attributes.addFlashAttribute("message","用户名或密码错误!");

@@ -27,15 +27,20 @@ public class Blog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;    
+    //标题
     private String title;
+    // 内容
     private String content;
+    //首页图片链接
     private String firstPicture;
     private String flag;
     private Integer views;
+    //是否打开赞赏功能
     private boolean appreciation;
+    //版权声明
     private boolean shareStatement;
-    private boolean commentabled;
     private boolean published;
+    //是否推荐
     private boolean recommend;
     @Temporal(TemporalType.TIMESTAMP)
     private Date creatDate;

@@ -37,4 +37,10 @@ public interface TypeDao {
      */
     @Delete("delete from t_type where id in ( ${ids} )")
     public int deleteTypes(String ids);
+
+    @Select("select * from t_type where name = #{name}")
+    public Type findByName(String name);
+
+    @Select("select * from t_type where id = #{id}")
+    public Type findById(int id);
 }

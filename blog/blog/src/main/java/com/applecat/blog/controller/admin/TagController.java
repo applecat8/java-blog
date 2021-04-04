@@ -3,8 +3,8 @@ package com.applecat.blog.controller.admin;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.applecat.blog.model.pojo.Type;
-import com.applecat.blog.service.TypeService;
+import com.applecat.blog.model.pojo.Tag;
+import com.applecat.blog.service.TagService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,34 +15,34 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 @Controller
 @RequestMapping(path = "/admin")
-public class TypeController {
+public class TagController {
     
     @Autowired
-    private TypeService typeService;
+    private TagService tagService;
 
     /**
-     * 分类管理页面
+     * 标签管理页面
      */
-    @GetMapping("/types")
-    public String types(Model model){
-        List<Type> types =  typeService.listType();
+    @GetMapping("/tags")
+    public String tags(Model model){
+        List<Tag> tags =  tagService.listTag();
         //如果为空创建一个新的,防止空指针异常
-        if (types == null) types = new ArrayList<>();
+        if (tags == null) tags = new ArrayList<>();
         //记录总数
-        int total = types.size();
-        model.addAttribute("types", types);
+        int total = tags.size();
+        model.addAttribute("tags", tags);
         model.addAttribute("total", total);
-        return "admin/types";
+        return "admin/tags";
     }
 
     /**
-     * 保存新分类
-     * @param newTypeName 新分类名称
+     * 保存新标签
+     * @param newTagName 新标签名称
      * @return
      */
-    @GetMapping("/types/save")
-    public String saveNewType(String newTypeName,RedirectAttributesModelMap model){
-        String[] result =  typeService.saveType(newTypeName);
+    @GetMapping("/tags/save")
+    public String saveNewTag(String newTagName,RedirectAttributesModelMap model){
+        String[] result =  tagService.saveTag(newTagName);
 
         if ("true".equals(result[0])) {
             model.addFlashAttribute("status", true);
@@ -51,19 +51,19 @@ public class TypeController {
         }
         
         model.addFlashAttribute("msg", result[1]);
-        return "redirect:/admin/types";
+        return "redirect:/admin/tags";
     }
 
 
     /**
      * 将前端删除复选框中的id封装为id数组
      * 根据分类的id,来删除多个分类
-     * @param delTypeIDs 分类的名称组
+     * @param delTagIDs 分类的名称组
      * @return
      */
-    @GetMapping("/types/del")
-    public String deleteTypes(int[] delTypeIDs){
-        typeService.deleteTypes(delTypeIDs); 
-        return "redirect:/admin/types";
+    @GetMapping("/tags/del")
+    public String deleteTags(int[] delTagIDs){
+        tagService.deleteTags(delTagIDs); 
+        return "redirect:/admin/tags";
     }
 }

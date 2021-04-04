@@ -9,6 +9,11 @@
 	<link rel="stylesheet" href="../../static/css/me.css">
 	<title>首页</title>
 </head>
+<style>
+	.disable {
+		pointer-events: none;
+	}
+</style>
 
 <body>
 
@@ -51,112 +56,78 @@
 	<!-- 中间内容 -->
 	<div class="m-container-small m-padded-big">
 		<div class="ui container">
-			<form action="#" class="ui form segment">
-				<div class="inline fields">
-					<div class="field">
-						<input type="text" name="title" placeholder="标题">
-					</div>
+			<div class="ui form segment">
+				<input type="hidden" name="index">
+				<div class="inline fields ">
 					<div class="field">
 						<div class="ui selection dropdown">
-							<input type="hidden" name="type">
+							<input type="hidden" name="typeId">
 							<i class="dropdown icon"></i>
 							<dvi class="default text">分类</dvi>
 							<div class="menu">
-								<div class="item" data-value="1">错误日志</div>
+								<div th:each="type : ${types}" class="item" data-value="1" th:data-value="${type.id}"
+									th:text="${type.name}">错误日志</div>
+								<!-- /* -->
 								<div class="item" data-value="2">开发者手册</div>
+								<!-- */ -->
 							</div>
 						</div>
 					</div>
 					<div class="field">
-						<div class="ui checkbox">
-							<input type="checkbox" name="recommend" id="recommend">
-							<label for="recommend">推荐</label>
-						</div>
+						<button id="search-btn" class="ui mini brown basic button"><i class="search icon"></i>搜索</button>
 					</div>
-					<div class="field">
-						<button class="ui mini brown basic button"><i class="search icon"></i>搜索</button>
+					<div class="" style="position: absolute; right: 10%;">
+						<h3 class="ui header">共<span class="ui orange header m-font-thin" th:text="${page.count}">20</span>篇</h3>
 					</div>
 				</div>
-			</form>
-			<table class="ui table">
-				<thead class="ui">
-					<tr>
-						<th></th>
-						<th>标题</th>
-						<th>类型</th>
-						<th>推荐</th>
-						<th>更新时间</th>
-						<th>操作</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>1</td>
-						<td>Java基础</td>
-						<td>技术</td>
-						<td>是</td>
-						<td>2020-1-4</td>
-						<td>
-							<a href="" class="ui button brown mini">编辑</a>
-							<a href="" class="ui button grey mini">删除</a>
-						</td>
-					</tr>
-				</tbody>
+			</div>
+			<div id="table-container">
+				<table class="ui table" th:fragment="blogList">
+					<thead class="ui">
+						<tr>
+							<th></th>
+							<th>标题</th>
+							<th>类型</th>
+							<th>推荐</th>
+							<th>更新时间</th>
+							<th>操作</th>
+						</tr>
+					</thead>
 
-				<tbody>
-					<tr>
-						<td>1</td>
-						<td>Java基础</td>
-						<td>技术</td>
-						<td>是</td>
-						<td>2020-1-4</td>
-						<td>
-							<a href="" class="ui button brown mini">编辑</a>
-							<a href="" class="ui button grey mini">删除</a>
-						</td>
-					</tr>
-				</tbody>
+					<tbody>
+						<tr th:each="blog,status : ${page.blogs}">
+							<td th:text="${status.count}">1</td>
+							<td th:text="${blog.title}">Java基础</td>
+							<td th:text="${blog.type == null} ? '无' : ${blog.type.name}">技术</td>
+							<td th:text="${blog.recommend} ? '是' : '否' ">是</td>
+							<td th:text="${blog.updateDate}">2020-1-4</td>
+							<td>
+								<a href="#" class="ui button brown mini">编辑</a>
+								<a href="#" th:href="@{/admin/blogs/del(index=${index},id=${blog.id})}"
+									class="ui button grey mini">删除</a>
+							</td>
+						</tr>
+					</tbody>
 
-				<tbody>
-					<tr>
-						<td>1</td>
-						<td>Java基础</td>
-						<td>技术</td>
-						<td>是</td>
-						<td>2020-1-4</td>
-						<td>
-							<a href="" class="ui button brown mini">编辑</a>
-							<a href="" class="ui button grey mini">删除</a>
-						</td>
-					</tr>
-				</tbody>
+					<tfoot>
+						<tr>
+							<th colspan="6">
+								<div class="ui pagination mini menu">
+									<!-- <a onclick="page(this)" th:attr="data-page=${index}-1" th:attrappend="class=${index==1} ? ' disable' : '' " class="item disable">上一页</a> -->
 
-				<tbody>
-					<tr>
-						<td>1</td>
-						<td>Java基础</td>
-						<td>技术</td>
-						<td>是</td>
-						<td>2020-1-4</td>
-						<td>
-							<a href="" class="ui button brown mini">编辑</a>
-							<a href="" class="ui button grey mini">删除</a>
-						</td>
-					</tr>
-				</tbody>
+									<a onclick="page(this)" th:attr="data-index=${index}-1" class="item" th:attrappend="class=${index==1} ? ' disable' : '' ">上一页</a>
 
-				<tfoot>
-					<tr>
-						<th colspan="6">
-							<dvi class="ui pagination mini menu">
-								<a href="#" class="item">上一页</a>
-								<a href="#" class="item">下一页</a>
-							</dvi>
-							<a href="" class="ui mini right floated brown basic button">新增</a>
-						</th>
-					</tr>
-				</tfoot>
-			</table>
+									<a onclick="page(this)" th:attr="data-index=${index}+1" class="item" th:attrappend="class=${index==page.total} ? ' disable' : '' " >下一页</a>
+
+									<!-- <a href="#" th:href="@{/admin/blogs(index=${index+1})}"
+										th:attrappend="class=${index==page.total} ? ' disable' : '' " class="item">下一页</a> -->
+								</div>
+								<a href="" class="ui mini right floated brown basic button">新增</a>
+							</th>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
 		</div>
 	</div>
 
@@ -200,10 +171,10 @@
 		</div>
 	</footer>
 
-<!--/*/<th:block th:replace="admin/_fragments :: script">/*/-->
+	<!--/*/<th:block th:replace="admin/_fragments :: script">/*/-->
 	<script src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
-<!--/*/</th:block>/*/-->
+	<!--/*/</th:block>/*/-->
 
 
 	<script>
@@ -213,6 +184,23 @@
 
 		// 下拉
 		$('.ui.dropdown').dropdown();
+
+		// 搜索
+		function page(obj) {
+			$("[name='index']").val($(obj).data("index"));
+			loaddata();
+		}
+
+		$("#search-btn").click(function () {
+			loaddata();	
+		});
+
+		function loaddata() {
+			$("#table-container").load(/*[[@{/admin/blogs/search}]]*/"/admin/blogs/search", {
+				typeId: $("[name='typeId']").val(),
+				index: $("[name='index']").val(),
+			});
+		}
 	</script>
 </body>
 
