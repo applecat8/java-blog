@@ -24,6 +24,17 @@ class BlogApplicationTests {
 		System.out.println("start");
 		blogs.forEach(System.out::println);
 	}
+
+	@Test
+	public void testAddBlog(){
+		Blog blog = new Blog();
+		blog.setAppreciation(true);
+		blog.setPublished(true);
+		blog.setRecommend(true);
+		blog.setShareStatement(true);
+
+		blogDao.saveBlog(blog);	
+	}
 	
 	/**
 	 * 测试分页

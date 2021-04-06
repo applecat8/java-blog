@@ -1,6 +1,7 @@
 package com.applecat.blog.controller.admin;
 
 import com.applecat.blog.model.bo.Page;
+import com.applecat.blog.model.pojo.Blog;
 import com.applecat.blog.service.BlogService;
 import com.applecat.blog.service.TypeService;
 
@@ -30,7 +31,7 @@ public class BlogController {
         //所有分类， 用于筛选
         model.addAttribute("types", typeService.listType());
         model.addAttribute("page", page);
-        model.addAttribute("index", index);
+        model.addAttribute("index", page.getIndex());
         return "admin/admin";
     }
 
@@ -39,16 +40,9 @@ public class BlogController {
         // 获取页面对象
         Page page = blogService.limitListBlog(index, typeId);
 
-        //所有分类， 用于筛选
-        // model.addAttribute("types", typeService.listType());
-        // model.addAttribute("page", page);
-        // model.addAttribute("index", index);
-        System.out.println(index +"> "+ typeId);
-        System.out.println(page);
-        
         model.addAttribute("types", typeService.listType());
         model.addAttribute("page", page);
-        model.addAttribute("index", index);
+        model.addAttribute("index", page.getIndex());
         return "admin/admin::blogList";
     }
 
@@ -62,5 +56,13 @@ public class BlogController {
     public String delBlog(int index,int id){
         blogService.delBlog(id);
         return "redirect:/admin/blogs?index=" + index;
+    }
+
+    @PostMapping("/blogs/save")
+    public String saveBlog(Blog blog, String tagIds){
+        System.out.println(blog);
+        System.out.println(tagIds);
+        blogService.saveBlog(blog, tagIds);
+        return "redirect:/admin/blogs";
     }
 }

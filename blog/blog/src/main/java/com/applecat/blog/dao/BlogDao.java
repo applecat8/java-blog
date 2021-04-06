@@ -5,6 +5,7 @@ import java.util.List;
 import com.applecat.blog.model.pojo.Blog;
 
 import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.One;
 import org.apache.ibatis.annotations.Result;
@@ -33,6 +34,7 @@ public interface BlogDao {
              "limit #{start}, #{pageSize}",
              "</script>"})
     //@Select("select * from t_blog where type_id =  limit #{start},#{pageSize}")
+    @Result(property = "updateDate", column = "update_date")
     @Result(property = "type", column = "type_id", javaType = Type.class, one = @One(select = "com.applecat.blog.dao.TypeDao.findById"))
     public List<Blog> limitListBlog(Integer typeId, int start,int pageSize);
 
@@ -60,6 +62,7 @@ public interface BlogDao {
     @Select("select * from t_blog where id = #{id}")
     public Blog getBlog(int id);
 
+    @Insert("insert into t_blog values(null,#{appreciation},#{content},#{createDate},#{firstPicture},#{flag},#{published},#{recommend},#{shareStatement},#{title},#{updateDate},#{views},#{type.id})")
     public int saveBlog(Blog blog);
 
     @Delete("delete from t_blog where id = #{id}")

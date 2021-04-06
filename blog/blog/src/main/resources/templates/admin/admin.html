@@ -65,11 +65,9 @@
 							<i class="dropdown icon"></i>
 							<dvi class="default text">分类</dvi>
 							<div class="menu">
-								<div th:each="type : ${types}" class="item" data-value="1" th:data-value="${type.id}"
-									th:text="${type.name}">错误日志</div>
-								<!-- /* -->
-								<div class="item" data-value="2">开发者手册</div>
-								<!-- */ -->
+								<div th:each="type : ${types}" class="item" data-value="1" th:data-value="${type.id}" th:text="${type.name}">错误日志</div>
+
+								<div class="item" data-value="">无</div>
 							</div>
 						</div>
 					</div>
@@ -100,7 +98,7 @@
 							<td th:text="${blog.title}">Java基础</td>
 							<td th:text="${blog.type == null} ? '无' : ${blog.type.name}">技术</td>
 							<td th:text="${blog.recommend} ? '是' : '否' ">是</td>
-							<td th:text="${blog.updateDate}">2020-1-4</td>
+							<td th:text="${#dates.format(blog.updateDate, 'yyyy-MM-dd HH:mm')}">2020-1-4</td>
 							<td>
 								<a href="#" class="ui button brown mini">编辑</a>
 								<a href="#" th:href="@{/admin/blogs/del(index=${index},id=${blog.id})}"
@@ -122,7 +120,7 @@
 									<!-- <a href="#" th:href="@{/admin/blogs(index=${index+1})}"
 										th:attrappend="class=${index==page.total} ? ' disable' : '' " class="item">下一页</a> -->
 								</div>
-								<a href="" class="ui mini right floated brown basic button">新增</a>
+								<a href="" th:href="@{/admin/blogs/release}" class="ui mini right floated brown basic button">新增</a>
 							</th>
 						</tr>
 					</tfoot>

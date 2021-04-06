@@ -17,5 +17,5 @@ public class Page {
     //Blog的数量
     private int count;
     //当前位于页 
-    //private int index;
+    private int index;
 }
