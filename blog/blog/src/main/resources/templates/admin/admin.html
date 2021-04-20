@@ -87,6 +87,7 @@
 							<th>标题</th>
 							<th>类型</th>
 							<th>推荐</th>
+							<th>是否发布</th>
 							<th>更新时间</th>
 							<th>操作</th>
 						</tr>
@@ -98,6 +99,7 @@
 							<td th:text="${blog.title}">Java基础</td>
 							<td th:text="${blog.type == null} ? '无' : ${blog.type.name}">技术</td>
 							<td th:text="${blog.recommend} ? '是' : '否' ">是</td>
+							<td th:text="${blog.published} ? '是' : '否' ">是</td>
 							<td th:text="${#dates.format(blog.updateDate, 'yyyy-MM-dd HH:mm')}">2020-1-4</td>
 							<td>
 								<a href="#" class="ui button brown mini">编辑</a>
@@ -109,7 +111,7 @@
 
 					<tfoot>
 						<tr>
-							<th colspan="6">
+							<th colspan="7">
 								<div class="ui pagination mini menu">
 									<!-- <a onclick="page(this)" th:attr="data-page=${index}-1" th:attrappend="class=${index==1} ? ' disable' : '' " class="item disable">上一页</a> -->
 

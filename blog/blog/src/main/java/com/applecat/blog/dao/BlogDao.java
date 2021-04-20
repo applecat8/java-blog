@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.One;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Select;
 
@@ -63,6 +64,7 @@ public interface BlogDao {
     public Blog getBlog(int id);
 
     @Insert("insert into t_blog values(null,#{appreciation},#{content},#{createDate},#{firstPicture},#{flag},#{published},#{recommend},#{shareStatement},#{title},#{updateDate},#{views},#{type.id})")
+    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     public int saveBlog(Blog blog);
 
     @Delete("delete from t_blog where id = #{id}")

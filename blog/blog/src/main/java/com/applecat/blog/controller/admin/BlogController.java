@@ -30,6 +30,7 @@ public class BlogController {
 
         //所有分类， 用于筛选
         model.addAttribute("types", typeService.listType());
+
         model.addAttribute("page", page);
         model.addAttribute("index", page.getIndex());
         return "admin/admin";
@@ -43,14 +44,12 @@ public class BlogController {
         model.addAttribute("types", typeService.listType());
         model.addAttribute("page", page);
         model.addAttribute("index", page.getIndex());
+        //局部刷新
         return "admin/admin::blogList";
     }
 
     /**
      * 删除博客
-     * @param index
-     * @param id
-     * @return
      */
     @GetMapping("/blogs/del")
     public String delBlog(int index,int id){
@@ -58,10 +57,11 @@ public class BlogController {
         return "redirect:/admin/blogs?index=" + index;
     }
 
+    /**
+     * 保存新博客
+     */
     @PostMapping("/blogs/save")
     public String saveBlog(Blog blog, String tagIds){
-        System.out.println(blog);
-        System.out.println(tagIds);
         blogService.saveBlog(blog, tagIds);
         return "redirect:/admin/blogs";
     }

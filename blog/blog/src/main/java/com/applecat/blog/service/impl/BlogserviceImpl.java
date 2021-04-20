@@ -3,9 +3,11 @@ package com.applecat.blog.service.impl;
 import java.util.Date;
 
 import com.applecat.blog.dao.BlogDao;
+import com.applecat.blog.dao.BlogTagDao;
 import com.applecat.blog.model.bo.Page;
 import com.applecat.blog.model.pojo.Blog;
 import com.applecat.blog.service.BlogService;
+import com.applecat.blog.utils.StringUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,9 @@ public class BlogserviceImpl implements BlogService {
 
     @Autowired
     private BlogDao blogDao;
+
+    @Autowired
+    private BlogTagDao blogTagDao;
 
     @Override
     public Page limitListBlog(int index, Integer typeId) {
@@ -50,6 +55,8 @@ public class BlogserviceImpl implements BlogService {
     @Override
     public void delBlog(int id) {
         try {
+            //删除blog前要先将t_blog_tags表中的对应关系删除
+            blogTagDao.delMapping(id);
             blogDao.delBlog(id);
         } catch (Exception e) {
             throw e;
@@ -58,12 +65,24 @@ public class BlogserviceImpl implements BlogService {
 
     @Override
     public void saveBlog(Blog blog, String tagIds) {
+        //设置博客相关时间
         blog.setCreateDate(new Date());
         blog.setUpdateDate(new Date());
+
         try {
             blogDao.saveBlog(blog);
-        } catch (Exception e) {
 
+            //保存blog_tag表之间的映射关系
+            //将id字符串分割为数组"1,2,3" -> [1,2,3]
+            if (!StringUtil.isEmpty(tagIds)) {
+                String[] tagArray = tagIds.split(",");
+                for (String tagId : tagArray) {
+                    System.out.println(tagId + "---");
+                    blogTagDao.saveMapping(blog.getId(), Integer.parseInt(tagId));
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 }
