@@ -10,4 +10,10 @@ public interface BlogService {
     void delBlog(int id);
 
     void saveBlog(Blog blog, String tagIds);
+
+    void updateBlog(Blog blog, String tagIds);
+
+    Blog getBlog(int id);
+
+    String getTagIds(int blogId);
 }

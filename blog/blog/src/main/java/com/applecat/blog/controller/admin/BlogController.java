@@ -36,6 +36,10 @@ public class BlogController {
         return "admin/admin";
     }
 
+    /**
+     * 根据分类搜索查询
+     * @param typeId 分类id
+     */
     @PostMapping("/blogs/search")
     public String search(@RequestParam(name = "index", defaultValue = "1") int index, Integer typeId, Model model) {
         // 获取页面对象
@@ -47,7 +51,7 @@ public class BlogController {
         //局部刷新
         return "admin/admin::blogList";
     }
-
+    
     /**
      * 删除博客
      */
@@ -62,7 +66,12 @@ public class BlogController {
      */
     @PostMapping("/blogs/save")
     public String saveBlog(Blog blog, String tagIds){
-        blogService.saveBlog(blog, tagIds);
+        //如果id不为空，说明是更新操作
+        if (blog.getId() != null) {
+            blogService.updateBlog(blog, tagIds);
+        }else {
+            blogService.saveBlog(blog, tagIds);
+        }
         return "redirect:/admin/blogs";
     }
 }

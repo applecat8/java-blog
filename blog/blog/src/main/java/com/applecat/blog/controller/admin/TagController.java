@@ -62,8 +62,13 @@ public class TagController {
      * @return
      */
     @GetMapping("/tags/del")
-    public String deleteTags(int[] delTagIDs){
-        tagService.deleteTags(delTagIDs); 
+    public String deleteTags(int[] delTagIDs, RedirectAttributesModelMap model){
+        try {
+            tagService.deleteTags(delTagIDs); 
+        } catch (Exception e) {
+            model.addFlashAttribute("status", false);
+            model.addFlashAttribute("msg", "有博客正在使用该标签!");
+        }
         return "redirect:/admin/tags";
     }
 }

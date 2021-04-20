@@ -102,7 +102,8 @@
 							<td th:text="${blog.published} ? '是' : '否' ">是</td>
 							<td th:text="${#dates.format(blog.updateDate, 'yyyy-MM-dd HH:mm')}">2020-1-4</td>
 							<td>
-								<a href="#" class="ui button brown mini">编辑</a>
+								<a href="#" th:href="@{/admin/blogs/edit(id=${blog.id})}"
+								  class="ui button brown mini">编辑</a>
 								<a href="#" th:href="@{/admin/blogs/del(index=${index},id=${blog.id})}"
 									class="ui button grey mini">删除</a>
 							</td>
@@ -192,6 +193,7 @@
 		}
 
 		$("#search-btn").click(function () {
+			$("[name='index']").val(0);
 			loaddata();	
 		});
 

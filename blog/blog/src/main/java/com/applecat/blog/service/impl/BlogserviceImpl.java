@@ -22,6 +22,11 @@ public class BlogserviceImpl implements BlogService {
     private BlogTagDao blogTagDao;
 
     @Override
+    public Blog getBlog(int id){
+        return blogDao.getBlog(id);
+    }
+
+    @Override
     public Page limitListBlog(int index, Integer typeId) {
 
         int count = blogDao.getTotalBlogByTypeId(typeId);
@@ -71,18 +76,40 @@ public class BlogserviceImpl implements BlogService {
 
         try {
             blogDao.saveBlog(blog);
-
-            //保存blog_tag表之间的映射关系
-            //将id字符串分割为数组"1,2,3" -> [1,2,3]
-            if (!StringUtil.isEmpty(tagIds)) {
-                String[] tagArray = tagIds.split(",");
-                for (String tagId : tagArray) {
-                    System.out.println(tagId + "---");
-                    blogTagDao.saveMapping(blog.getId(), Integer.parseInt(tagId));
-                }
-            }
+            saveMapping(blog.getId(), tagIds);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    @Override
+    public void updateBlog(Blog blog, String tagIds) {
+        blog.setUpdateDate(new Date());
+        blogDao.updateBlog(blog);
+        //删除映射关系
+        blogTagDao.delMapping(blog.getId());
+        //添加新映射关系
+        saveMapping(blog.getId(), tagIds);
+    }
+
+    /**
+     * 保存blog_tag表之间的映射关系
+     * @param blogId 博客id
+     * @param tagIds 标签ids
+     */
+    private void saveMapping(int blogId, String tagIds){
+        //将id字符串分割为数组"1,2,3" -> [1,2,3]
+        if (!StringUtil.isEmpty(tagIds)) {
+            String[] tagArray = tagIds.split(",");
+            for (String tagId : tagArray) {
+                System.out.println(tagId + "---");
+                blogTagDao.saveMapping(blogId, Integer.parseInt(tagId));
+            }
+        }
+    }
+
+    @Override
+    public String getTagIds(int blogId) {
+        return StringUtil.arrayConverter(blogTagDao.listTagIds(blogId));
     }
 }

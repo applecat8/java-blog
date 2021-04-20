@@ -62,8 +62,14 @@ public class TypeController {
      * @return
      */
     @GetMapping("/types/del")
-    public String deleteTypes(int[] delTypeIDs){
-        typeService.deleteTypes(delTypeIDs); 
+    public String deleteTypes(int[] delTypeIDs, RedirectAttributesModelMap model){
+        try {
+            typeService.deleteTypes(delTypeIDs); 
+        } catch (Exception e) {
+            //出现错误提示
+            model.addFlashAttribute("status", false);
+            model.addFlashAttribute("msg", "有博客正在使用该分类");
+        }
         return "redirect:/admin/types";
     }
 }

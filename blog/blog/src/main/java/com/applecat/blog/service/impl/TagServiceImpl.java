@@ -6,6 +6,7 @@ import com.applecat.blog.dao.TagDao;
 import com.applecat.blog.exception.exception.NotFoundException;
 import com.applecat.blog.model.pojo.Tag;
 import com.applecat.blog.service.TagService;
+import com.applecat.blog.utils.StringUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,7 +35,7 @@ public class TagServiceImpl implements TagService {
         //判断该分类标签在数据库中是否存在
         if (tagDao.findTagByName(name) != null) {
             status[0] = "false";
-            status[1] = "分类名称以存在";
+            status[1] = "分类名称已存在";
             return status;
         }
 
@@ -60,14 +61,6 @@ public class TagServiceImpl implements TagService {
         if (names == null || names.length == 0) {
             return; 
         }
-
-        StringBuilder sb = new StringBuilder();
-        //将id数组拼接为id字符串链
-        //[1,2,3] -> "1,2,3"
-        for (int i = 0; i < names.length - 1; i++) {
-            sb.append(names[i] + ",");
-        }
-        sb.append(names[names.length - 1]);
-        tagDao.deleteTags(sb.toString());
+        tagDao.deleteTags(StringUtil.arrayConverter(names));
     }
 }

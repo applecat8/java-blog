@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.One;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import aj.org.objectweb.asm.Type;
 
@@ -60,13 +61,36 @@ public interface BlogDao {
              "</script>"})
     public int getTotalBlogByTypeId(Integer typeId);
 
+    /**
+     * 获取博客完整信息
+     * @param id
+     * @return
+     */
     @Select("select * from t_blog where id = #{id}")
+    @Result(property = "createDate", column = "create_date")
+    @Result(property = "firstPicture", column = "first_picture")
+    @Result(property = "updateDate", column = "update_date")
+    @Result(property = "shareStatement", column = "share_statement")
+    @Result(property = "type", column = "type_id", javaType = Type.class, one = @One(select = "com.applecat.blog.dao.TypeDao.findById"))
     public Blog getBlog(int id);
 
+    /**
+     * 保存博客
+     * @param blog
+     * @return
+     */
     @Insert("insert into t_blog values(null,#{appreciation},#{content},#{createDate},#{firstPicture},#{flag},#{published},#{recommend},#{shareStatement},#{title},#{updateDate},#{views},#{type.id})")
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     public int saveBlog(Blog blog);
 
+    /**
+     * 删除博客 
+     * @param id
+     * @return
+     */
     @Delete("delete from t_blog where id = #{id}")
     public int delBlog(int id);
+
+    @Update("update t_blog set appreciation = #{appreciation}, content = #{content}, first_picture = #{firstPicture}, flag = #{flag}, published = #{published}, recommend = #{recommend}, share_statement = #{shareStatement}, title = #{title}, update_date = #{updateDate}, type_id = #{type.id} where id = #{id}")
+    public void updateBlog(Blog blog);
 }
