@@ -7,6 +7,7 @@ import com.applecat.blog.dao.BlogTagDao;
 import com.applecat.blog.model.bo.Page;
 import com.applecat.blog.model.pojo.Blog;
 import com.applecat.blog.service.BlogService;
+import com.applecat.blog.utils.BeanUtils;
 import com.applecat.blog.utils.StringUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,8 +85,14 @@ public class BlogserviceImpl implements BlogService {
     
     @Override
     public void updateBlog(Blog blog, String tagIds) {
+        Blog target = getBlog(blog.getId());
+
+        // 更新blog中的空值
+        BeanUtils.copyProperties(blog, target);
         blog.setUpdateDate(new Date());
+
         blogDao.updateBlog(blog);
+
         //删除映射关系
         blogTagDao.delMapping(blog.getId());
         //添加新映射关系

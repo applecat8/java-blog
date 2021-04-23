@@ -19,4 +19,12 @@ public interface BlogTagDao {
 
     @Select("select tags_id from t_blog_tags where blogs_id = #{blogId}")
     public int[] listTagIds(int blogId);
+
+    /**
+     * 根据标签id从中间表中查询对应blog的数量
+     * @param tagId 标签id
+     * @return
+     */
+    @Select("select count(*) from t_blog_tags where tags_id = #{tagId}")
+    public int blogCountByTag(int tagId);
 }

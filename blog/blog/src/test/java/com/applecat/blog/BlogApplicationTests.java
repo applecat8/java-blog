@@ -6,6 +6,8 @@ import java.util.List;
 import com.applecat.blog.dao.BlogDao;
 import com.applecat.blog.dao.BlogTagDao;
 import com.applecat.blog.model.pojo.Blog;
+import com.applecat.blog.service.TagService;
+import com.applecat.blog.service.TypeService;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,12 @@ class BlogApplicationTests {
 
 	@Autowired
 	private BlogDao blogDao;
+
+	@Autowired
+	private TagService tagService;
+
+	@Autowired
+	private TypeService typeService;
 
 	@Autowired
 	private BlogTagDao blogTagDao;
@@ -54,5 +62,15 @@ class BlogApplicationTests {
 	public void getBlog() {
 		Blog blog = blogDao.getBlog(2);		
 		System.out.println(blog);
+	}
+
+	@Test
+	public void tagTop(){
+		tagService.listTopTag(3).stream().forEach(System.out :: println);;
+	}
+
+	@Test
+	public void typeTop(){
+		typeService.listTypeTop(3).stream().forEach(System.out :: println);
 	}
 }

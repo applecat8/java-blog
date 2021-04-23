@@ -1,5 +1,6 @@
 package com.applecat.blog.service;
 
+import com.applecat.blog.model.bo.TypeTop;
 import com.applecat.blog.model.pojo.Type;
 
 import java.util.List;
@@ -23,4 +24,10 @@ public interface TypeService {
      * @param names 名称组
      */
     public void deleteTypes(int[] names);
+
+    /**
+     * 返回排好序的标签类型
+     * @param len 返回的个数
+     */
+    public List<TypeTop> listTypeTop(int len);
 }

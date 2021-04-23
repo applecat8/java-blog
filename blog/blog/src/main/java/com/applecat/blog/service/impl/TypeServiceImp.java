@@ -1,9 +1,13 @@
 package com.applecat.blog.service.impl;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import com.applecat.blog.dao.BlogDao;
 import com.applecat.blog.dao.TypeDao;
 import com.applecat.blog.exception.exception.NotFoundException;
+import com.applecat.blog.model.bo.TypeTop;
 import com.applecat.blog.model.pojo.Type;
 import com.applecat.blog.service.TypeService;
 
@@ -18,6 +22,9 @@ public class TypeServiceImp implements TypeService {
 
     @Autowired
     private TypeDao typeDao;
+
+    @Autowired
+    private BlogDao blogDao;
 
     @Override
     public String[] saveType(String name) {
@@ -69,5 +76,17 @@ public class TypeServiceImp implements TypeService {
         }
         sb.append(names[names.length - 1]);
         typeDao.deleteTypes(sb.toString());
+    }
+
+    @Override
+    public List<TypeTop> listTypeTop(int len) {
+        List<Type> types = typeDao.listType();
+        int size = types.size();
+        List<TypeTop> results = new ArrayList<>(size);
+        for (Type type: types) {
+            results.add(new TypeTop(type.getName(), blogDao.countByTypeId(type.getId())));
+        }
+        Collections.sort(results);
+        return results.subList(0, len > size ? size : len);
     }
 }

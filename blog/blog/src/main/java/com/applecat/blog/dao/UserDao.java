@@ -15,4 +15,7 @@ public interface UserDao {
 
     @Select("select * from t_user where username = #{name} and password = #{password}")
     public User findUserByNameAndPassword(String name,String password);
+
+    @Select("select * from t_user limit 1")
+    public User getUser();
 }

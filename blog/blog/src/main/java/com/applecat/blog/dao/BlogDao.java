@@ -37,6 +37,9 @@ public interface BlogDao {
              "</script>"})
     //@Select("select * from t_blog where type_id =  limit #{start},#{pageSize}")
     @Result(property = "updateDate", column = "update_date")
+    @Result(property = "createDate", column = "create_date")
+    @Result(property = "firstPicture", column = "first_picture")
+    @Result(property = "shareStatement", column = "share_statement")
     @Result(property = "type", column = "type_id", javaType = Type.class, one = @One(select = "com.applecat.blog.dao.TypeDao.findById"))
     public List<Blog> limitListBlog(Integer typeId, int start,int pageSize);
 
@@ -86,11 +89,16 @@ public interface BlogDao {
     /**
      * 删除博客 
      * @param id
-     * @return
      */
     @Delete("delete from t_blog where id = #{id}")
     public int delBlog(int id);
 
+    /**
+     * 更新
+     */
     @Update("update t_blog set appreciation = #{appreciation}, content = #{content}, first_picture = #{firstPicture}, flag = #{flag}, published = #{published}, recommend = #{recommend}, share_statement = #{shareStatement}, title = #{title}, update_date = #{updateDate}, type_id = #{type.id} where id = #{id}")
     public void updateBlog(Blog blog);
+
+    @Select("select count(*) from t_blog where type_id = #{typeId}")
+    public int countByTypeId(int typeId);
 }

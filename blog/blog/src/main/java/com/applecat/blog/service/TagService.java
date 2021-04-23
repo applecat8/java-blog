@@ -1,5 +1,6 @@
 package com.applecat.blog.service;
 
+import com.applecat.blog.model.bo.TagTop;
 import com.applecat.blog.model.pojo.Tag;
 
 import java.util.List;
@@ -23,4 +24,10 @@ public interface TagService {
      * @param names 名称组
      */
     public void deleteTags(int[] names);
+
+    /**
+     * 返回排好序的标签列表
+     * @param value 返回的个数
+     */
+    public List<TagTop> listTopTag(int len);
 }

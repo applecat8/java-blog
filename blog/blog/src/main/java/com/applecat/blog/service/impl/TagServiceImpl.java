@@ -1,9 +1,13 @@
 package com.applecat.blog.service.impl;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import com.applecat.blog.dao.BlogTagDao;
 import com.applecat.blog.dao.TagDao;
 import com.applecat.blog.exception.exception.NotFoundException;
+import com.applecat.blog.model.bo.TagTop;
 import com.applecat.blog.model.pojo.Tag;
 import com.applecat.blog.service.TagService;
 import com.applecat.blog.utils.StringUtil;
@@ -19,6 +23,9 @@ public class TagServiceImpl implements TagService {
 
     @Autowired
     private TagDao tagDao;
+
+    @Autowired
+    private BlogTagDao blogTagDao;
 
     @Override
     public String[] saveTag(String name) {
@@ -54,6 +61,9 @@ public class TagServiceImpl implements TagService {
         return tagDao.listTag();
     }
 
+    /**
+     * 删除标签
+     */
     @Override
     public void deleteTags(int[] names) {
 
@@ -62,5 +72,20 @@ public class TagServiceImpl implements TagService {
             return; 
         }
         tagDao.deleteTags(StringUtil.arrayConverter(names));
+    }
+
+    /**
+     * 以标签的使用量来排序返回
+     */
+    @Override
+    public List<TagTop> listTopTag(int len){
+        List<Tag> tags = listTag();
+        int size = tags.size();
+        List<TagTop> result = new ArrayList<>(size);
+        for (Tag tag : tags) {
+            result.add(new TagTop(tag.getName(), blogTagDao.blogCountByTag(tag.getId())));
+        }
+        Collections.sort(result);
+        return result.subList(0, len > size ? size : len);
     }
 }

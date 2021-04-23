@@ -10,6 +10,11 @@
 	<link rel="stylesheet" href="../static/css/me.css">
 	<title>首页</title>
 </head>
+<style>
+	.disable {
+		pointer-events: none;
+	}
+</style>
 
 <body>
 	<!-- 导航  -->
@@ -48,7 +53,7 @@
 							<h3 class="ui header">博客</h3>
 						</div>
 						<div class="right aligned column">
-							<h3 class="ui header">共<span class="ui orange header m-font-thin">20</span>篇</h3>
+							<h3 class="ui header">共<span class="ui orange header m-font-thin" th:text="${page.count}" >20</span>篇</h3>
 						</div>
 					</div>
 				</div>
@@ -56,8 +61,9 @@
 				<!-- body 中间博客展示部分 -->
 				<div class="ui segment">
 					<!-- 每一篇博客 -->
+					<!--/*-->
 					<div class="ui segment m-margin  padded">
-						<div class="ui stackable grid">
+						<div class="ui middle aligned stackable grid">
 							<!-- 博客 -->
 							<div class="eleven wide column content">
 								<h3 class="ui">Mybatis入门，环境搭建</h3>
@@ -234,38 +240,39 @@
 							</div>
 						</div>
 					</div>
+					<!--*/-->
 
-					<div class="ui segment m-margin  padded">
-						<div class="ui stackable grid">
+					<div class="ui segment m-margin padded" th:each="blog : ${page.blogs}">
+						<div class="ui middle aligned stackable grid">
 							<!-- 博客 -->
 							<div class="eleven wide column content">
-								<h3 class="ui">Mybatis入门，环境搭建</h3>
+								<h3 class="ui"><a href="#" th:href="@{/blog/{id}(id=${blog.id})}" th:text="${blog.title}">入门，环境搭建</a></h3>
 								<p class="ui item m-font">MyBatis 是一款优秀的持久层框架，它支持自定义 SQL、存储过程以及高级映射。MyBatis 免除了几乎所有的 JDBC
 									代码以及设置参数和获取结果集的工作。MyBatis 可以通过简单的 XML 或注解来配置和映射原始类型、接口和 Java POJO为数据库中的记录。</p>
 								<div class="ui grid mini">
 									<div class="eleven wide column">
 										<div class="ui horizontal link list">
 											<div class="item">
-												<img class="ui avatar image" src="../static/images/th.jpg">
-												<div class="content">appletcat</div>
+												<img class="ui avatar image" src="../static/images/th.jpg" th:src="@{${user.headPortrait}}">
+												<div class="content" th:text="${user.name}">appletcat</div>
 											</div>
 											<div class="item">
-												<i class="time icon"></i>2020-2-9
+												<i class="time icon"></i><span th:text="${#dates.format(blog.updateDate, 'yyyy-MM-dd')}">2020-1-9</span>
 											</div>
 											<div class="item">
-												<i class="eye icon">223</i>
+												<i class="eye icon"><span th:text="${blog.views}">111</span></i>
 											</div>
 										</div>
 									</div>
 									<div class="five wide column right aligned">
-										<a href="#" class="ui label m-font-thin">mybatis</a>
+										<a href="#" class="ui label m-font-thin" th:text="${blog.type.name}">mybatis</a>
 									</div>
 								</div>
 							</div>
 							<!-- 右侧图片 -->
 							<div class="five wide column">
-								<a href="#">
-									<img class="ui rounded  image " src="../static/images/th.jpg">
+								<a href="#" th:href="@{/blog/{id}(id=${blog.id})}">
+									<img class="ui rounded  image " src="../static/images/th.jpg" th:src="${blog.firstPicture}">
 								</a>
 							</div>
 						</div>
@@ -277,10 +284,10 @@
 				<div class="ui segment">
 					<div class="ui middle aligned two column grid">
 						<div class="column">
-							<a href="#" class="ui button">上一页</a>
+							<a href="#" th:href="@{/(index=${page.index-1})}" class="ui" th:attrappend="class=${page.index==1} ? ' disable' : '' ">上一页</a>
 						</div>
 						<div class="right aligned column">
-							<a href="" class="ui button">下一页</a>
+							<a href="#" th:href="@{/(index=${page.index+1})}" class="ui" th:attrappend="class=${page.index==page.total} ? ' disable' : '' ">下一页</a>
 						</div>
 					</div>
 				</div>
@@ -317,13 +324,17 @@
 						</div>
 					</div>
 					<div class="ui segment">
-						<div class="ui vertical fluid  menu">
+						<div class="ui vertical fluid menu">
+							<a href="#" class="item" th:each="type : ${types}"> 
+								<span th:text="${type.name}">Java</span> <div class="ui label" th:text="${type.number}">12</div>
+							</a>
+							<!--/*-->
 							<a href="#" class="item">Java <div class="ui label">12</div></a>
 							<a href="#" class="item">Java <div class="ui label">12</div></a>
 							<a href="#" class="item">Java <div class="ui label">12</div></a>
 							<a href="#" class="item">Java <div class="ui label">12</div></a>
 							<a href="#" class="item">Java <div class="ui label">12</div></a>
-							<a href="#" class="item">Java <div class="ui label">12</div></a>
+							<!--*/-->
 						</div>
 					</div>
 				</div>
@@ -342,13 +353,17 @@
 					</div>
 					<div class="ui segment">
 						<div class="ui tag labels">
+							<a class="ui label" th:each="tag : ${tags}">
+								<span th:text="${tag.name}">note</span> <div class="detail" th:text="${tag.number}">12</div>
+							</a>
+							<!--/*-->
 							<a class="ui label">$ <div class="detail">12</div></a>
 							<a class="ui label">$ <div class="detail">12</div></a>
-							<a class="ui label">$ <div class="detail">12</div></a>
 							<a class="ui label">$10.00 <div class="detail">12</div></a>
 							<a class="ui label">$10.00 <div class="detail">12</div></a>
 							<a class="ui label">$10.00 <div class="detail">12</div></a>
 							<a class="ui label">$10.00 <div class="detail">12</div></a>
+							<!--*/-->
 						</div>
 					</div>
 				</div>

@@ -1,6 +1,7 @@
 package com.applecat.blog.service.impl;
 
 import com.applecat.blog.dao.UserDao;
+import com.applecat.blog.model.bo.UserInfo;
 import com.applecat.blog.model.pojo.User;
 import com.applecat.blog.service.UserService;
 
@@ -30,5 +31,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User checkUser(String name, String password) {
         return dao.findUserByNameAndPassword(name, password);
+    }
+
+    public UserInfo getUserInfo(){
+        User user = dao.getUser();
+        return new UserInfo(user.getNickname(), user.getAvater());
     }
 }
