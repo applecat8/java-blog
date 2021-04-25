@@ -28,10 +28,12 @@
 				<a href="#" class="m-item item m-mobile-hide"><i class="erase icon"></i>归档</a>
 				<a href="#" class="m-item item m-mobile-hide"><i class="icon address book"></i>关于我</a>
 				<div class="right m-item item m-mobile-hide">
-					<div class="ui icon input">
-						<input type="text" placeholder="Search...">
-						<i class="search link icon"></i>
-					</div>
+					<form name="search" action="#" th:action="@{/search}" method="post" target="_blank">
+						<div class="ui icon input">
+							<input type="text" name="query" placeholder="Search...">
+							<i onclick="document.forms['search'].submit()" class="search link icon"></i>
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>
@@ -260,7 +262,7 @@
 												<i class="time icon"></i><span th:text="${#dates.format(blog.updateDate, 'yyyy-MM-dd')}">2020-1-9</span>
 											</div>
 											<div class="item">
-												<i class="eye icon"><span th:text="${blog.views}">111</span></i>
+												<i class="eye icon"><span th:text="${blog.views} == null ? 0">111</span></i>
 											</div>
 										</div>
 									</div>

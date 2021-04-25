@@ -73,4 +73,9 @@ class BlogApplicationTests {
 	public void typeTop(){
 		typeService.listTypeTop(3).stream().forEach(System.out :: println);
 	}
+
+	@Test
+	public void testSearch(){
+		blogDao.LimitSearchBlog(0, 3, "%%").stream().forEach(System.out :: println);
+	}
 }

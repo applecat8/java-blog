@@ -59,6 +59,28 @@ public class BlogserviceImpl implements BlogService {
     }
 
     @Override
+    public Page limitListBlogByQuery(int index, String query) {
+        Page page = new Page();
+        int count = blogDao.getTotalBlog();
+        int total = (count + 7) / 8;
+
+        if (total == 0) {
+            page.setIndex(1);
+            page.setBlogs(null);
+            page.setCount(0);
+            page.setTotal(1);
+            return page;
+        }else {
+            if (query == null) query = "";
+            page.setTotal(total);
+            page.setCount(count);
+            page.setBlogs(blogDao.LimitSearchBlog((index - 1) * 8, 8, "%" + query + "%"));
+            page.setIndex(index);
+        }
+        return page;
+    }
+
+    @Override
     public void delBlog(int id) {
         try {
             //删除blog前要先将t_blog_tags表中的对应关系删除
@@ -119,4 +141,5 @@ public class BlogserviceImpl implements BlogService {
     public String getTagIds(int blogId) {
         return StringUtil.arrayConverter(blogTagDao.listTagIds(blogId));
     }
+
 }

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -37,8 +38,22 @@ public class IndexController {
         return "index";
     }
 
-    @GetMapping(path = "/blog")
-    public String blog(){
+    /**
+     * 前端搜索
+     * @param query 查询关键字
+     */
+    @PostMapping(path = "/search")
+    public String search(@RequestParam(name = "index", defaultValue = "1") int index, Model model, String query){
+        Page page = blogService.limitListBlogByQuery(index, query);
+        model.addAttribute("page", page);
+        model.addAttribute("user", userService.getUserInfo());
+        model.addAttribute("query", query);
+        return "search";
+    }
+
+    @GetMapping(path = "/blog/{}")
+    public String blog(int id, Model model){
+        model.addAttribute("blog", blogService.getBlog(id));
         return "blog";
     }
 }

@@ -43,6 +43,15 @@ public interface BlogDao {
     @Result(property = "type", column = "type_id", javaType = Type.class, one = @One(select = "com.applecat.blog.dao.TypeDao.findById"))
     public List<Blog> limitListBlog(Integer typeId, int start,int pageSize);
 
+
+    @Select("select * from t_blog where title like #{query} or content like #{query} limit #{start}, #{pageSize}")
+    @Result(property = "updateDate", column = "update_date")
+    @Result(property = "createDate", column = "create_date")
+    @Result(property = "firstPicture", column = "first_picture")
+    @Result(property = "shareStatement", column = "share_statement")
+    @Result(property = "type", column = "type_id", javaType = Type.class, one = @One(select = "com.applecat.blog.dao.TypeDao.findById"))
+    public List<Blog> LimitSearchBlog(int start, int pageSize, String query);
+
     /**
      * 查询总共有多少blog
      * @return 总数

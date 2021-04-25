@@ -7,6 +7,8 @@ import com.applecat.blog.model.pojo.Blog;
 public interface BlogService {
     Page limitListBlog(int index, Integer typeId);
 
+    Page limitListBlogByQuery(int index, String query);
+
     void delBlog(int id);
 
     void saveBlog(Blog blog, String tagIds);
