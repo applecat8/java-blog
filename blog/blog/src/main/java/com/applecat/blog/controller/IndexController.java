@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -51,9 +52,10 @@ public class IndexController {
         return "search";
     }
 
-    @GetMapping(path = "/blog/{}")
-    public String blog(int id, Model model){
-        model.addAttribute("blog", blogService.getBlog(id));
+    @GetMapping(path = "/blog/{id}")
+    public String blog(@PathVariable int id, Model model){
+        model.addAttribute("blog", blogService.getAndConvert(id));
+        model.addAttribute("user", userService.getUserInfo());
         return "blog";
     }
 }

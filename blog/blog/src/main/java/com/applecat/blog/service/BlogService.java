@@ -17,5 +17,7 @@ public interface BlogService {
 
     Blog getBlog(int id);
 
+    Blog getAndConvert(int id);
+
     String getTagIds(int blogId);
 }

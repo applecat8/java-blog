@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.One;
+import org.apache.ibatis.annotations.Many;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Select;
@@ -79,11 +80,13 @@ public interface BlogDao {
      * @return
      */
     @Select("select * from t_blog where id = #{id}")
+    @Result(property = "id", column = "id")
     @Result(property = "createDate", column = "create_date")
     @Result(property = "firstPicture", column = "first_picture")
     @Result(property = "updateDate", column = "update_date")
     @Result(property = "shareStatement", column = "share_statement")
     @Result(property = "type", column = "type_id", javaType = Type.class, one = @One(select = "com.applecat.blog.dao.TypeDao.findById"))
+    @Result(property = "tags", column = "id", many = @Many(select = "com.applecat.blog.dao.TagDao.findTagById"))
     public Blog getBlog(int id);
 
     /**

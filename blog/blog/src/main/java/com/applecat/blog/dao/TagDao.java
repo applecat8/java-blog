@@ -40,4 +40,7 @@ public interface TagDao {
 
     @Select("select * from t_tag where name = #{name}")
     public Tag findTagByName(String name);
+
+    @Select("select * from t_tag where id in(select tags_id from t_blog_tags where blogs_id = #{bid})")
+    public List<Tag> findTagById(Integer bid);
 }

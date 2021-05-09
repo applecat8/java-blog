@@ -78,4 +78,9 @@ class BlogApplicationTests {
 	public void testSearch(){
 		blogDao.LimitSearchBlog(0, 3, "%%").stream().forEach(System.out :: println);
 	}
+
+	@Test
+	public void testBlogTags(){
+		System.out.println(blogDao.getBlog(3));
+	}
 }

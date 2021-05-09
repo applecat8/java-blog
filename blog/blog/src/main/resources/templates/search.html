@@ -67,8 +67,8 @@
 											<div class="content" th:text="${user.name}">appletcat</div>
 										</div>
 										<div class="item">
-											<i class="time icon"></i><span
-												th:text="${#dates.format(blog.updateDate, 'yyyy-MM-dd')}">2020-1-9</span>
+											<i class="time icon"></i>
+											<span th:text="${#dates.format(blog.updateDate, 'yyyy-MM-dd')}">2020-1-9</span>
 										</div>
 										<div class="item">
 											<i class="eye icon"><span th:text="${blog.views} == null ? 0">111</span></i>

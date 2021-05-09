@@ -4,10 +4,12 @@ import java.util.Date;
 
 import com.applecat.blog.dao.BlogDao;
 import com.applecat.blog.dao.BlogTagDao;
+import com.applecat.blog.exception.exception.NotFoundException;
 import com.applecat.blog.model.bo.Page;
 import com.applecat.blog.model.pojo.Blog;
 import com.applecat.blog.service.BlogService;
 import com.applecat.blog.utils.BeanUtils;
+import com.applecat.blog.utils.MarkdownUtils;
 import com.applecat.blog.utils.StringUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +26,21 @@ public class BlogserviceImpl implements BlogService {
 
     @Override
     public Blog getBlog(int id){
-        return blogDao.getBlog(id);
+        Blog blog =  blogDao.getBlog(id);
+        if (blog == null) {
+            throw new NotFoundException("博客不存在");
+        }
+        return blog;
+    }
+
+    @Override
+    public Blog getAndConvert(int id) {
+        Blog blog = getBlog(id);
+        if (blog == null) {
+            throw new NotFoundException("博客不存在");
+        }
+        blog.setContent(MarkdownUtils.markdownToHtmlExtensions(blog.getContent()));
+        return blog;
     }
 
     @Override

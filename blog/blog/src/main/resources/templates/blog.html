@@ -49,14 +49,15 @@
 				<div class="eleven wide column">
 					<div class="ui horizontal link list">
 						<div class="item">
-							<img class="ui avatar image" src="../static/images/th.jpg">
-							<div class="content">appletcat</div>
+							<img class="ui avatar image" src="../static/images/th.jpg" th:src="@{${user.headPortrait}}">
+							<div class="content"><a href="#" th:text="${user.name}">appletcat</a></div>
 						</div>
 						<div class="item">
-							<i class="time icon"></i>2020-2-9
+							<i class="time icon"></i>
+							<span th:text="${#dates.format(blog.updateDate, 'yyyy-MM-dd')}">2020-1-9</span>
 						</div>
 						<div class="item">
-							<i class="eye icon">223</i>
+							<i class="eye icon"><span th:text="${blog.views} == null ? 0">111</span></i>
 						</div>
 					</div>
 				</div>
@@ -64,18 +65,17 @@
 
 			<!-- 图片 -->
 			<div class="ui attached segment">
-				<img src="../static/images/th.jpg" alt="" class="ui  rounded image massive fluid"
+				<img src="../static/images/th.jpg" th:src="${blog.firstPicture}" alt="" class="ui  rounded image massive fluid"
 					style="height: 450px !important;">
 			</div>
 
 			<!-- 内容 -->
 			<div class="ui attached segment">
 				<div class="ui basic segment right aligned">
-					<div class="ui label">java</div>
+					<div class="ui label" th:text="${blog.flag}">java</div>
 				</div>
-				<h1 class="ui center aligned header">SpringBoot</h1>
-				<div id="content" class="typo typo-selection m-padded-lr-big m-padded-large js-toc-content">
-
+				<h1 class="ui center aligned header" th:text="${blog.title}">SpringBoot</h1>
+				<div id="content" class="typo typo-selection m-padded-lr-big m-padded-large js-toc-content" th:utext="${blog.content}">
 
 					<h1>中文网页重设与排版：<i class="serif">Typo.css</i></h1><br />
 
@@ -489,7 +489,8 @@ h5,h6{font-size:1em;}
 				</div>
 				<!-- 标签  -->
 				<div class="ui tag labels">
-					<a href="#" class="ui label">$10.00 <div class="detail">12</div></a>
+					<a href="#" class="ui label">$10.00 </a>
+					<div class="ui basic left pointing label" th:each="tag : ${blog.tags}" th:text="${tag.name}">笔记</div>
 				</div>
 
 				<!-- 赞赏 -->
@@ -499,11 +500,11 @@ h5,h6{font-size:1em;}
 				<div class="payQ ui flowing popup top left transition hidden">
 					<div class="ui images" style="font-size: inherit !important;">
 						<div class="image">
-							<img src="../static/images/th.jpg" alt="" class="ui rounded " style="width: 200px;">
+							<img src="../static/images/th.jpg" th:src="@{/images/th.jpg}" alt="" class="ui rounded " style="width: 200px;">
 							<div>微信</div>
 						</div>
 						<div class="image">
-							<img src="../static/images/th.jpg" alt="ui rounded" style="width: 200px;">
+							<img src="../static/images/th.jpg" th:src="@{/images/th.jpg}" alt="ui rounded" style="width: 200px;">
 							<div>支付宝</div>
 						</div>
 					</div>
@@ -515,14 +516,14 @@ h5,h6{font-size:1em;}
 				<div class="ui grid">
 					<div class="eleven wide column">
 						<ul class="list">
-							<li>作者 applecat</li>
-							<li>发表时间：2020-1-2</li>
+							<li>作者 : <span th:text="${user.name}">applecat</span> <a href="#" th:href="@{/about}">关于我</a></li>
+							<li>发表时间：<span th:text="${#dates.format(blog.createDate, 'yyyy-MM-dd HH:mm')}">2020-1-9</span></li>
 							<li>版权声明</li>
 							<li>转载方式</li>
 						</ul>
 					</div>
 					<div class="five wide column">
-						<img src="../static/images/th.jpg" alt="" class="ui right floated image rounded" style="width: 110px;">
+						<img src="../static/images/th.jpg" th:src="@{/images/th.jpg}" alt="" class="ui right floated image rounded" style="width: 110px;">
 					</div>
 				</div>
 			</div>
