@@ -248,9 +248,7 @@
 						<div class="ui middle aligned stackable grid">
 							<!-- 博客 -->
 							<div class="eleven wide column content">
-								<h3 class="ui"><a href="#" th:href="@{/blog/{id}(id=${blog.id})}" th:text="${blog.title}">入门，环境搭建</a></h3>
-								<p class="ui item m-font">MyBatis 是一款优秀的持久层框架，它支持自定义 SQL、存储过程以及高级映射。MyBatis 免除了几乎所有的 JDBC
-									代码以及设置参数和获取结果集的工作。MyBatis 可以通过简单的 XML 或注解来配置和映射原始类型、接口和 Java POJO为数据库中的记录。</p>
+								<h1 class="ui title"><a class="" href="#" th:href="@{/blog/{id}(id=${blog.id})}" th:text="${blog.title}">入门，环境搭建</a></h1>
 								<div class="ui grid mini">
 									<div class="eleven wide column">
 										<div class="ui horizontal link list">
@@ -262,19 +260,19 @@
 												<i class="time icon"></i><span th:text="${#dates.format(blog.updateDate, 'yyyy-MM-dd')}">2020-1-9</span>
 											</div>
 											<div class="item">
-												<i class="eye icon"><span th:text="${blog.views} == null ? 0">111</span></i>
+												<i class="eye icon"></i><span th:text="${blog.views} == null ? 0">111</span>
 											</div>
 										</div>
 									</div>
 									<div class="five wide column right aligned">
-										<a href="#" class="ui label m-font-thin" th:text="${blog.type.name}">mybatis</a>
+										<a href="#" class="ui label blue basic m-font-thin" th:text="${blog.type.name}">mybatis</a>
 									</div>
 								</div>
 							</div>
 							<!-- 右侧图片 -->
 							<div class="five wide column">
 								<a href="#" th:href="@{/blog/{id}(id=${blog.id})}">
-									<img class="ui rounded  image " src="../static/images/th.jpg" th:src="${blog.firstPicture}">
+									<img class="ui rounded  image " src="https://picsum.photos/seed/picsum/200/100" th:src="${blog.firstPicture}">
 								</a>
 							</div>
 						</div>
@@ -299,10 +297,10 @@
 			<div class="five wide column ">
 				<div class="ui card fluid">
 					<div class="image">
-						<img src="../static/images/th.jpg">
+						<img src="../static/images/th.jpg" th:src="@{${user.headPortrait}}">
 					</div>
 					<div class="content">
-						<a class="header">Kristy</a>
+						<a class="header" th:text="${user.name}">Kristy</a>
 						<div class="meta">
 							<span class="date">Joined in 2013</span>
 						</div>
